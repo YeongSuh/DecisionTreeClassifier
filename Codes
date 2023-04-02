@@ -1,0 +1,27 @@
+# 1) Import Libraries
+
+import pandas as pd
+import numpy as np
+import sklearn
+
+# 2) File upload
+
+from google.colab import files
+myfile = files.upload()
+
+# 3) Load the data
+
+data_logit = pd.read_csv("data_logit.csv", index_col=0)
+data_logit
+
+# 4) Split the data with train and test
+
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(data_logit.drop(['y'], axis=1), data_logit['y'], train_size=0.7, random_state=42)
+
+# 5) Specify the model
+
+from sklearn.tree import DecisionTreeClassifier
+dt_fit = DecisionTreeClassifier(criterion='gini', max_depth=5, min_samples_split=2, min_samples_leaf=1, random_state=42)
+dt_fit.fit(X_train, y_train)
+
